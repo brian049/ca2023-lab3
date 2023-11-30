@@ -195,7 +195,8 @@ class InstructionDecode extends Module {
   )
 
   // lab3(InstructionDecode) begin
-
+  io.memory_read_enable := opcode === InstructionTypes.L
+  io.memory_write_enable := opcode === InstructionTypes.S
   // lab3(InstructionDecode) end
 
   io.wb_reg_write_source := MuxCase(
@@ -211,5 +212,5 @@ class InstructionDecode extends Module {
   io.reg_write_enable := (opcode === InstructionTypes.RM) || (opcode === InstructionTypes.I) ||
     (opcode === InstructionTypes.L) || (opcode === Instructions.auipc) || (opcode === Instructions.lui) ||
     (opcode === Instructions.jal) || (opcode === Instructions.jalr)
-  io.reg_write_address := rd
+  io.reg_write_address := io.instruction(11, 7)
 }

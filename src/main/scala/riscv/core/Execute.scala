@@ -37,7 +37,18 @@ class Execute extends Module {
   alu_ctrl.io.funct7 := funct7
 
   // lab3(Execute) begin
+  alu.io.func := alu_ctrl.io.alu_funct
+  when(io.aluop1_source === ALUOp1Source.InstructionAddress){
+    alu.io.op1 := io.instruction_address
+  }.otherwise{
+    alu.io.op1 := io.reg1_data
+  }
 
+  when(io.aluop2_source === ALUOp2Source.Immediate){
+    alu.io.op2 := io.immediate
+  }.otherwise{
+    alu.io.op2 := io.reg2_data
+  }
   // lab3(Execute) end
 
   io.mem_alu_result := alu.io.result
